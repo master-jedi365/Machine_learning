@@ -1,11 +1,8 @@
 from dataclasses import dataclass
-from turtle import color
-import numpy as np
 import random
+import numpy as np
+
 from sklearn.datasets import fetch_california_housing
-from sklearn.linear_model import LinearRegression
-from dataclasses import dataclass
-import matplotlib.pyplot as plt
 
 @dataclass
 class dataset:
@@ -33,16 +30,19 @@ def get_calif_dataset(split_ratio: float) -> dataset:
     target_array = data_dict["target"]
     exp_names = data_dict["feature_names"]
     pred_name = data_dict["target_names"]
-
-    print("explonation names: ", exp_names)
     data_num = data_array.shape[0]
-    print("all data num: ", data_num)
-
+    
     test_data_idx =random.sample(list(range(0, data_num)), int(data_num * split_ratio))
-    print("test data num: ", len(test_data_idx))
-
     train_data_idx = list(set(range(0, data_num)) - set(test_data_idx))
-    print("train data num", len(train_data_idx))
+    print("#----------------------------------------------------------#")
+    print("#             california_housing dataset                   #")
+    print("#----------------------------------------------------------#")
+    print("Explonation names: ", exp_names)
+    print("Prediction names: ", pred_name)
+    print("All data num: ", data_num)
+    print("Test data num: ", len(test_data_idx))
+    print("Train data num", len(train_data_idx))
+    print("#----------------------------------------------------------#")
 
     exp_train_data = data_array[train_data_idx, :]
     exp_test_data = data_array[test_data_idx, :]
@@ -60,22 +60,5 @@ def get_calif_dataset(split_ratio: float) -> dataset:
         train_data_idx=train_data_idx,
         test_data_idx=test_data_idx
     )
+    
     return ds
-  
-def main():
-    calif_ds = get_calif_dataset(1/10)
-    lr = LinearRegression()
-
-    # 一次元線形回帰
-    train_X, test_X = get_data_from_name(["MedInc"], calif_ds)
-    lr.fit(train_X, calif_ds.pred_train_data)
-    a = lr.coef_[0][0]
-    b = lr.intercept_[0]
-    print("a, b", a, b)
-    plt.scatter(train_X.ravel(), calif_ds.pred_train_data.ravel())
-    max_x = max(train_X.ravel())
-    plt.plot([0, max_x], [b, a * max_x + b], color="red")
-    plt.savefig("result.jpg")
-
-if __name__ == "__main__":
-    main()
