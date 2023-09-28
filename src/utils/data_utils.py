@@ -17,13 +17,39 @@ class dataset:
     test_data_idx: list[int]
 
 def get_exp_name_idx(name: str, ds: dataset) -> int:
+    """与えられた説明変数名のインデックスを返す関数
+
+    Args:
+        name (str): 説明変数名
+        ds (dataset): データセット
+
+    Returns:
+        int: 説明変数のインデックス
+    """    
     return ds.exp_names.index(name)
 
 def get_data_from_name(name_list: list[str], ds: dataset) -> tuple[np.ndarray]:
+    """与えられた説明変数のリストに対応する訓練データとテストデータを返す関数
+
+    Args:
+        name_list (list[str]): 説明変数のリスト
+        ds (dataset): データセット
+
+    Returns:
+        tuple[np.ndarray]: 訓練データとテストデータの組->(train_data, test_data)
+    """    
     name_idx_list = [get_exp_name_idx(name, ds) for name in name_list]
     return ds.exp_train_data[:, name_idx_list], ds.exp_test_data[:, name_idx_list]
 
 def get_calif_dataset(split_ratio: float) -> dataset:
+    """california_housingデータセットの取得
+
+    Args:
+        split_ratio (float): 訓練・テストデータの分割の割合。テストデータ数 = split_ratio * 全データ数
+
+    Returns:
+        dataset: california_housingデータセット
+    """    
     data_dict = fetch_california_housing()
 
     data_array = data_dict["data"]
@@ -60,5 +86,5 @@ def get_calif_dataset(split_ratio: float) -> dataset:
         train_data_idx=train_data_idx,
         test_data_idx=test_data_idx
     )
-    
+
     return ds
