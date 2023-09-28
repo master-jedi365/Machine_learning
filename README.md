@@ -20,4 +20,5 @@ $ docker build -t ml_sample:latest .
 
 ---
 ## 実行スクリプト説明
-- run_simple_regression.sh: カリフォルニアデータセットの単線形回帰分析を行う
+- run_simple_regression.sh: カリフォルニアデータセットの単線形回帰分析を行うスクリプト
+- run_multi_regression.sh: カリフォルニアデータセットの重線形回帰分析を行うスクリプト
